@@ -2,16 +2,25 @@
 
 ## GCC
 
-### Compile
+### compile
 
-In ~/.bashrc just put like this.
+In **~/.bashrc** just put like this.
 
 ```bash
 # some my functions
 c() {
     # compile $1.c to $1
     gcc "$1".c -o "$1"
+
+    # If useful..
+    # ./"$1"
+    # rm "$1"
 }
+```
+
+and then,
+```
+$ source ~/.bashrc
 ```
 
 By this, you don't need to put like this,
