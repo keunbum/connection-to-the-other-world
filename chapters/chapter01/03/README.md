@@ -13,7 +13,7 @@
 * 윈속(winsock)의 초기화
 윈속 프로그래밍을 할 때에는 반드시 WSAStartup 함수를 호출해서, 프로그램에서 교구하는 윈도우 소켓의 버전을 알리고, 해당 버전을 지원하는 라이브러리의 초기화 작업을 진행해야 한다.
 
-```
+```c++
 #include <winsock2.h>
 
 int WSAStartup(WORD wVersionRequested, LPWSADATA lpWSAData);
@@ -22,7 +22,7 @@ int WSAStartup(WORD wVersionRequested, LPWSADATA lpWSAData);
 초기화된 라이브러리의 해제.
 대개 프로그램이 종료되기 직전에 호출.
 
-```
+```c++
 #include <winsock2.h>
 
 int WSACleanup(void);
