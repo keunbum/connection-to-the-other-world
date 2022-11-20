@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 	SOCKADDR_IN servAddr, clntAddr;
 
 	int szClntAddr;
-	const char* message = "Hello World!";
+	const char message[] = "Hello World!";
 
 	if (argc != 2)
 	{
@@ -56,8 +56,8 @@ int main(int argc, char* argv[])
 		ErrorHandling("accpet() error!");
 	}
 
-	printf("sizeof(message): %ld, strlen(message): %ld\n", sizeof(message), strlen(message));
-	send(hClntSock, message, strlen(message), 0);
+	printf("sizeof(message): %u, strlen(message): %zu\n", sizeof(message), strlen(message));
+	send(hClntSock, message, sizeof(message), 0);
 	closesocket(hClntSock);
 	closesocket(hServSock);
 	WSACleanup();
