@@ -15,18 +15,17 @@ int main(void)
     fd = open("data.txt", O_CREAT | O_WRONLY | O_TRUNC);
     if (fd == -1)
     {
-        my_close(fd);
-        error_handling("open() error!");
+        error_handling("open() error");
     }
 
     printf("file descriptor: %d\n", fd);
     printf("sizeof(buf) = %ld\n", sizeof(buf));
     printf("strlen(buf) = %ld\n", strlen(buf));
 
-    if (write(fd, buf, strlen(buf)) == -1)
+    if (write(fd, buf, sizeof(buf)) == -1)
     {
         my_close(fd);
-        error_handling("write() error!");
+        error_handling("write() error");
     }
 
     my_close(fd);
@@ -35,8 +34,7 @@ int main(void)
 
 void error_handling(const char *message)
 {
-    fputs(message, stderr);
-    fputc('\n', stderr);
+    perror(message);
     exit(1);
 }
 
@@ -44,6 +42,6 @@ void my_close(int fd)
 {
     if (close(fd) == -1)
     {
-        error_handling("close() error!)");
+        error_handling("close() error");
     }
 }
