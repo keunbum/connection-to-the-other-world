@@ -8,7 +8,6 @@
       * ### [파일 디스크립터와 소켓](#파일-디스크립터와-소켓-1)
 
    * ## [How to Execute](#how-to-execute-1)
-      * ### [Reference](#reference-1)
       
 # 리눅스 기반 파일 조작하기
 
@@ -16,6 +15,8 @@
 
 여기서 말하는 저수준이란 "표준에 상관없이 운영체제가 독립적으로 제공하는~"의 의미로 받아들이면 된다.
 즉, 이후에 설명하는 함수들은 리눅스에서 제공하는 함수이지, ANSI 표준에서 정의한 함수가 아니라는 뜻이다.
+
+---
 
 ## 파일 열기
 
@@ -57,8 +58,9 @@ int open(const char *path, ing flags);
 | O_WRONLY | write only                  | file access mode    |
 | O_RDWR   | read/write both             | file access mode    |
 
-## 파일 닫기
+---
 
+## 파일 닫기
 [close()](https://man7.org/linux/man-pages/man2/close.2.html)
 
 파일은 사용 후 반드시 닫아줘야 한다.
@@ -78,8 +80,35 @@ int close(int fd);
 ```
 
 ## 파일에 데이터 쓰기
+[write()](https://man7.org/linux/man-pages/man2/write.2.html)
+
+
+```c
+#include <unistd.h>
+
+ssize_t write(int fd, const void *buf, size_t count);
+// -> 성공 시 전달한 바이트 수, 실패 시 -1 반환
+// count 바이트만큼 작성한다.
+```
+
+size_t는 typedef 선언을 통해서 unsigned int로 정의되어 있다.
+ssize_t는 signed int로 정의되어 있다.
+
+---
 
 ## 파일에 저장된 데이터 읽기
+[read()](https://man7.org/linux/man-pages/man2/read.2.html)
+
+```c
+#include <unistd.h>
+
+ssize_t read(int fd, void *buf, size_t count);
+// -> 성공 시 수신한 바이트 수(단 파일의 끝을 만나면 0), 실패 시 -1 반환
+```
+
+
+
+---
 
 ## 파일 디스크립터와 소켓
 
@@ -99,6 +128,8 @@ $ cat data.txt
 ```bash
 $ gcc low_read.c -o low_read
 $ ./low_read
+# Permission denied 에러가 뜬다면 아래의 명령어를 추가적으로 실행.
+$ chmod u+r data.txt
 ```
 
 ## fd_seri.c
@@ -106,7 +137,3 @@ $ ./low_read
 $ gcc fd_seri.c -o fd_seri
 $ ./fd_seri
 ```
-
-## Reference
-* [man 2 write](https://man7.org/linux/man-pages/man2/write.2.html)
-* [man 2 read](https://man7.org/linux/man-pages/man2/read.2.html)
