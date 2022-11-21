@@ -1,6 +1,67 @@
 # Some Error Resolution Or Useful Tips in Programming, Git, Etc.
 
+# Index
+
+* [GCC](#gcc)
+    * [errno 출력](#errno-출력)
+* [Bash](#bash)
+    * [compile](#compile)
+* [Git](#git)
+    * [git push](#git-push)
+
 ## GCC
+
+### errno 출력
+
+편의상 close() 함수를 이용하여 에러 유도.
+
+```c
+/* main.c */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+
+void my_close_perror(int);
+void my_close_strerror(int);
+
+int main(void)
+{
+    int fd = -1;
+    my_close_perror(fd);
+    my_close_strerror(fd);
+    return 0;
+}
+
+void my_close_perror(int fd)
+{
+    if (close(fd) == -1)
+    {
+    	perror("my_close(): error");
+    }
+}
+
+void my_close_strerror(int fd)
+{
+    if (close(fd) == -1)
+    {
+    	fputs(strerror(errno), stderr);
+    	fputc('\n', stderr);
+    }
+}
+```
+
+```txt
+# 실행 결과
+$ ./main
+my_close(): error: Bad file descriptor
+Bad file descriptor
+```
+
+## Bash
 
 ### compile
 
