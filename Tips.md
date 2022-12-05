@@ -17,6 +17,12 @@
 ### 자동 정렬
 - Windows: Shift + Alt + F
 
+### MarkDown Preview
+- Ctrl + Shift + V
+
+### Terminal Switching
+- Ctrl + `
+
 ## GCC
 
 ### errno 출력
