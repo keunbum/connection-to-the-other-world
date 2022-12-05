@@ -1,6 +1,6 @@
 # 03-2 주소 정보의 표현
 
-앞선 예제에서 보았듯이 응용프로그램상에서의 IP주소와 PORT번호 표현을 위한 구조체가 정의되어 있다. 이 구조체를 중심으로 목적지 주소의 표현방법에 대해 살펴 보고조 한다. IPv4 중심으로 살펴봄에 유의한다.
+앞선 예제에서 보았듯이 응용프로그램상에서의 IP주소와 PORT번호 표현을 위한 구조체가 정의되어 있다. 이 구조체를 중심으로 목적지 주소의 표현방법에 대해 살펴 보고자 한다. IPv4 중심으로 살펴봄에 유의한다.
 
 ---
 
@@ -21,14 +21,14 @@
 
 ```c
 // 참고: https://man7.org/linux/man-pages/man7/ip.7.html
-// 헤더 파일 Go to Definition 활용하기
+// 헤더 파일에 Go to Definition 활용하여 각종 typedef나 구조체 정의 참조하기
 #include <netinet/in.h>
 
 struct sockaddr_in {
     sa_family_t    sin_family;   // 주소체계(Address Family). e.g. AF_INET
     in_port_t      sin_port;     // 16비트 TCP/UDP PORT번호. e.g. htons(3490)
     struct in_addr sin_addr;     // 32비트 IP주소. see struct in_addr, below
-    char           sin_zero[8];  // 사용되지 않음. zero this if you want to
+    char           sin_zero[8];  // 사용되지 않음. zero this if you need
 };
 
 struct in_addr {
