@@ -6,6 +6,7 @@
     * [errno 출력](#errno-출력)
 * [Bash](#bash)
     * [compile](#compile)
+    * [background exec](#background-exec)
 * [Git](#git)
     * [git push](#git-push)
 
@@ -92,6 +93,12 @@ $ gcc my_foo_bar_baz.c -o my_foo_bar_baz
 just
 ```bash
 $ c my_foo_bar_baz
+```
+
+### background exec
+
+```bash
+$ ./main &
 ```
 
 ## Git
