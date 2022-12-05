@@ -2,6 +2,8 @@
 
 # Index
 
+* [VS Code](#vs-code)
+    * [자동 정렬](#자동-정렬)
 * [GCC](#gcc)
     * [errno 출력](#errno-출력)
 * [Bash](#bash)
@@ -9,6 +11,11 @@
     * [background exec](#background-exec)
 * [Git](#git)
     * [git push](#git-push)
+
+## VS Code
+
+### 자동 정렬
+- Windows: Shift + Alt + F
 
 ## GCC
 
