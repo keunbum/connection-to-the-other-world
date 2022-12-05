@@ -14,14 +14,16 @@
 
 ## VS Code
 
-### 자동 정렬
-- Windows: Shift + Alt + F
+### 단축키
 
-### MarkDown Preview
-- Ctrl + Shift + V
+* #### 자동 정렬
+    1. Windows: Shift + Alt + F
 
-### Terminal Switching
-- Ctrl + `
+* #### MarkDown Preview
+    1. Windows: Ctrl + Shift + V
+
+* #### Terminal Switching
+    1. Windows: Ctrl + `
 
 ## GCC
 
