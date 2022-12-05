@@ -21,7 +21,7 @@
 
 ```c
 // 참고: https://man7.org/linux/man-pages/man7/ip.7.html
-// 헤더 파일에 Go to Definition 활용하여 각종 typedef나 구조체 정의 참조하기
+// Go to Definition 활용하여 각종 typedef나 구조체 정의 참조하기
 #include <netinet/in.h>
 
 struct sockaddr_in {
