@@ -7,7 +7,8 @@
 ## 함수 htons, htonl의 윈도우 기반 사용 예
 
 리눅스에서와 큰 차이 X.  
-자세한 건 [endian_conv_win.c](endian_conv_win.c) 파일 참조.
+
+https://github.com/keunbum/connection-to-the-other-world/blob/2beead9e3069e79ff2e322ccc20d51dd6166bc73/chapters/chapter03/05/endian_conv_win.c#L1-L39
 
 ---
 
@@ -19,7 +20,8 @@
 
 그리고 최신 윈도우에선 [RtlIpv4StringToAddress](https://learn.microsoft.com/en-us/windows/win32/api/ip2string/nf-ip2string-rtlipv4stringtoaddressa)를 사용한다고 한다.  
 
-[inet_adrconv_win.c](inet_adrconv_win.c) 파일 참조
+https://github.com/keunbum/connection-to-the-other-world/blob/2beead9e3069e79ff2e322ccc20d51dd6166bc73/chapters/chapter03/05/inet_adrconv_win.c#L1-L52
+
 
 
 ---
@@ -96,54 +98,7 @@ INT WSAAPI WSAAddressToStringA(
 
 ### Example
 
-```c
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
-
-#undef UNICODE
-#undef _UNICODE
-
-#include <stdio.h>
-#include <WinSock2.h>
-
-#pragma comment(lib, "ws2_32.lib")
-
-void ErrorHandling(const char*);
-
-int main(int argc, char* argv[])
-{
-	WSADATA wsaData;
-	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
-	{
-		ErrorHandling("WSAStartup() error");
-	}
-
-	{
-		char* strAddr = "203.211.218.102:9190";
-		char strAddrBuf[50];
-		SOCKADDR_IN servAddr;
-		int addrLength;
-
-		addrLength = sizeof(servAddr);
-		WSAStringToAddress(
-			strAddr, AF_INET, NULL, (SOCKADDR*)&servAddr, &addrLength);
-
-		addrLength = sizeof(strAddrBuf);
-		WSAAddressToString(
-			(SOCKADDR*)&servAddr, sizeof(servAddr), NULL, strAddrBuf, &addrLength);
-
-		printf("Second conv result: %s\n", strAddrBuf);
-	}
-
-	WSACleanup();
-	return 0;
-}
-
-void ErrorHandling(const char* message)
-{
-	perror(message);
-	exit(1);
-}
-```
+https://github.com/keunbum/connection-to-the-other-world/blob/2beead9e3069e79ff2e322ccc20d51dd6166bc73/chapters/chapter03/05/conv_addr_win.c#L1-L46
 
 >🔖 **UNICODE와 _UNICODE**  
 >#undef는 기존에 정의된 매크로를 해제하는 경우에 사용한다. 프로젝트의 환경에 따라서 VC++ 자체적으로 이 두 매크로를 정의하는 경우가 있는데, 그렇게 되면 두 함수의 매개변수형이 유니코드 기반으로 바뀌어서 원치 않은 실행 결과를 보이게 된다. 그래서 이와 같은 문장을 삽입하였다.
