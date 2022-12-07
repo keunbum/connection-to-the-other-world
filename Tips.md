@@ -1,9 +1,9 @@
 # Some Error Resolution Or Useful Tips in Programming, Git, Etc.
 
-# Index
+## Index
 
 * [VS Code](#vs-code)
-    * [자동 정렬](#자동-정렬)
+    * [단축키](#단축키)
 * [GCC](#gcc)
     * [errno 출력](#errno-출력)
 * [Bash](#bash)
