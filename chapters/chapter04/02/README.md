@@ -79,7 +79,7 @@ accept 함수는 '연결요청 대기 큐'에서 대기중인 클라이언트의
 
 https://github.com/keunbum/connection-to-the-other-world/blob/5c69b8c761f266055d551c01a70ff9a3ad3051b5/chapters/chapter01/01/hello_server.c#L1-L66
 
-> **코드 분석**(줄번호는 깃허브에 올라간 코드 기준으로 설명)  
+> **코드 분석**
 > * 27행: 이 때 생성되는 소켓은 아직 서버 소켓이라 부르기 이른 상태이다.
 > * 33~41행: 소켓 주소할당을 위해 구조체 변수를 초기화하고 bind 함수를 호출하고 있다.
 > * 43행: 연결요청 대기상태로 들어가기 위해서 listen 함수를 호출하고 있다. 이제야 비로소 27행에서 생성한 소켓을 가리켜 서버 소켓이라 할 수 있겠다.
@@ -135,7 +135,7 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 https://github.com/keunbum/connection-to-the-other-world/blob/5c69b8c761f266055d551c01a70ff9a3ad3051b5/chapters/chapter01/01/hello_client.c#L1-L55
 
-> **코드 분석**(줄번호는 깃허브에 올라간 코드 기준으로 설명)  
+> **코드 분석**
 > * 23행: TCP 소켓 생성.
 > * 29~32행: 초기화 값은 연결을 목적으로 하는 서버 소켓의 IP와 PORT 정보이다.
 > * 34행: 서버로 연결 요청.
