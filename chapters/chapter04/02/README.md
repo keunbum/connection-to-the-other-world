@@ -77,6 +77,8 @@ accept 함수는 '연결요청 대기 큐'에서 대기중인 클라이언트의
 
 이제 [hello_server.c](../../chapter01/01/hello_server.c) 소스 코드를 다시 한번 분석하고자 한다.
 
+https://github.com/keunbum/connection-to-the-other-world/blob/5c69b8c761f266055d551c01a70ff9a3ad3051b5/chapters/chapter01/01/hello_server.c#L1-L66
+
 > **코드 분석**(줄번호는 깃허브에 올라간 코드 기준으로 설명)  
 > * 27행: 이 때 생성되는 소켓은 아직 서버 소켓이라 부르기 이른 상태이다.
 > * 33~41행: 소켓 주소할당을 위해 구조체 변수를 초기화하고 bind 함수를 호출하고 있다.
@@ -129,7 +131,9 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 ## Hello world 클라이언트 프로그램 리뷰
 
-앞서 Hello world 서버 프로그램을 리뷰한 것처럼 [Hello world 클라이언트 프로그램](../../chapter01/01/hello_client.c)도 살펴 보자.
+앞서 Hello world 서버 프로그램을 리뷰한 것처럼 [hello_client.c](../../chapter01/01/hello_client.c) 소스 코드도 살펴 보자.
+
+https://github.com/keunbum/connection-to-the-other-world/blob/5c69b8c761f266055d551c01a70ff9a3ad3051b5/chapters/chapter01/01/hello_client.c#L1-L55
 
 > **코드 분석**(줄번호는 깃허브에 올라간 코드 기준으로 설명)  
 > * 23행: TCP 소켓 생성.
@@ -143,7 +147,7 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 ## TCP 기반 서버, 클라이언트의 함수 호출 관계
 
-지금까지 TCP 서버/클라이언트 프로그램 구현순서르 설명했는데, 이 둘은 서로 독립된 과정이 아니기 때문에 하나의 과정으로
+지금까지 TCP 서버/클라이언트 프로그램 구현순서를 설명했는데, 이 둘은 서로 독립된 과정이 아니기 때문에 하나의 과정으로
 머리 속에 그릴 수 있어야 한다.
 
 <img src = "../../../img/TCP%20%EC%84%9C%EB%B2%84-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8%20%ED%95%A8%EC%88%98%20%ED%98%B8%EC%B6%9C%20%EA%B4%80%EA%B3%84.png" width="40%" height="40%">
