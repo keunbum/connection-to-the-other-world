@@ -1,4 +1,4 @@
-//#define _WINSOCK_DEPRECATED_NO_WARNINGS
+ï»¿//#define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #include <stdio.h>
 #include <WinSock2.h>
@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 		ErrorHandling("WSAStartup() error");
 	}
 
-	/* inet_addr ÇÔ¼ö È£Ãâ ¿¹ */
+	/* inet_addr í•¨ìˆ˜ í˜¸ì¶œ ì˜ˆ */
 	{
 		const char* addr = "127.212.124.78";
 		u_long conv_addr = inet_addr(addr);
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	/* inet_ntoa ÇÔ¼ö È£Ãâ ¿¹ */
+	/* inet_ntoa í•¨ìˆ˜ í˜¸ì¶œ ì˜ˆ */
 	{
 		struct sockaddr_in addr;
 		char* strPtr = NULL;
