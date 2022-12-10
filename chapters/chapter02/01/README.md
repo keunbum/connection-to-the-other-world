@@ -6,9 +6,8 @@
 
 ## 프로토콜(Protocol)이란 무엇인가?
 
-<참조>
-
 * [한국어 위키](https://ko.wikipedia.org/wiki/%ED%86%B5%EC%8B%A0_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)
+* [네이버 사전](https://en.dict.naver.com/#/entry/enko/f806e62f01394e76ab1461cf80607ffd)
 
 **protocol**
 
