@@ -8,7 +8,7 @@
 
 <참조>
 
-* [한국 위키](https://ko.wikipedia.org/wiki/%ED%86%B5%EC%8B%A0_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)
+* [한국어 위키](https://ko.wikipedia.org/wiki/%ED%86%B5%EC%8B%A0_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)
 
 **protocol**
 
@@ -151,4 +151,4 @@ https://github.com/keunbum/connection-to-the-other-world/blob/fecef46411caedf735
 
     "전송되는 데이터의 경계(Boundary)가 존재하지 않는다."
 
-이를 확인하기 위해서는 클라이언트에서 write 함수의 호출횟수와 read 함수의 호출횟수를 불일치 시켜보면 된다.
+이를 확인하기 위해서는 서버의 write 함수의 호출횟수와 클라이언트의 read 함수의 호출횟수를 불일치 시켜보면 된다.
