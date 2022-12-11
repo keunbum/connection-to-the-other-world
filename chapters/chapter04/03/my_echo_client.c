@@ -27,7 +27,7 @@
 #define set_addr(addr, domain, ip, port)           \
     do                                             \
     {                                              \
-        memset(&serv_addr, 0, sizeof(addr));       \
+        memset(&addr, 0, sizeof(addr));       \
         serv_addr.sin_family = domain;             \
         serv_addr.sin_addr.s_addr = inet_addr(ip); \
         serv_addr.sin_port = htons(atoi(port));    \
