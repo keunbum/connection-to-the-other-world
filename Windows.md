@@ -142,12 +142,12 @@ void ErrorHandling(const char* message)
 #define Eprintf(...) fprintf(stderr, __VA_ARGS__)
 
 #define MyFunc(func, res, ...)                               \
-    do                                                        \
-    {                                                         \
-        if ((res = func(__VA_ARGS__)) == -1)                  \
-        {                                                     \
+    do                                                       \
+    {                                                        \
+        if ((res = func(__VA_ARGS__)) == -1)                 \
+        {                                                    \
             ErrorHandling(#func "(" #__VA_ARGS__ ") error"); \
-        }                                                     \
+        }                                                    \
     } while (0)
 
 #define MySocket(res, ...) MyFunc(socket, res, __VA_ARGS__)
@@ -156,9 +156,9 @@ void ErrorHandling(const char* message)
 #define MySend(res, ...) MyFunc(send, res, __VA_ARGS__)
 #define MyClosesocket(res, ...) MyFunc(closesocket, res, __VA_ARGS__)
 
-#define SetAddr(addr, domain, ip, port)           \
-    do                                             \
-    {                                              \
+#define SetAddr(addr, domain, ip, port)       \
+    do                                        \
+    {                                         \
         memset(&addr, 0, sizeof(addr));       \
         addr.sin_family = domain;             \
         addr.sin_addr.s_addr = inet_addr(ip); \
