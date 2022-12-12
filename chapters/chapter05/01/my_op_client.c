@@ -41,8 +41,8 @@
 
 void error_handling(const char *);
 int get_user_input(char *, int *);
-int get_result_from_server(int, char *, int, int*);
-int read_buf(char *, int, int*);
+int get_result_from_server(int, char *, int, int *);
+int read_buf(char *, int, int *);
 void make_final_result(char *, const char *, int, int);
 
 int main(int argc, char *argv[])

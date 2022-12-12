@@ -36,21 +36,21 @@
         addr.sin_port = htons(atoi(port)); \
     } while (0);
 
-#define my_debug_s(pref, s)                \
-    do                               \
-    {                                \
+#define my_debug_s(pref, s)                     \
+    do                                          \
+    {                                           \
         eprintf(#pref ": " #s ": \"%s\"\n", s); \
     } while (0);
 
-#define my_debug_a(pref, a, n, c)        \
-    do                             \
-    {                              \
-        eprintf(#pref ": " #a "[" #n "]:");   \
-        forn(i, n)                 \
-        {                          \
-            eprintf(" " #c, a[i]); \
-        }                          \
-        eprintf("\n");             \
+#define my_debug_a(pref, a, n, c)           \
+    do                                      \
+    {                                       \
+        eprintf(#pref ": " #a "[" #n "]:"); \
+        forn(i, n)                          \
+        {                                   \
+            eprintf(" " #c, a[i]);          \
+        }                                   \
+        eprintf("\n");                      \
     } while (0);
 
 #define BUF_SIZE (1024)
