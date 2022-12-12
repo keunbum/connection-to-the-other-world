@@ -28,9 +28,9 @@
     do                                             \
     {                                              \
         memset(&addr, 0, sizeof(addr));       \
-        serv_addr.sin_family = domain;             \
-        serv_addr.sin_addr.s_addr = inet_addr(ip); \
-        serv_addr.sin_port = htons(atoi(port));    \
+        addr.sin_family = domain;             \
+        addr.sin_addr.s_addr = inet_addr(ip); \
+        addr.sin_port = htons(atoi(port));    \
     } while (0);
 
 #define BUF_SIZE (64)

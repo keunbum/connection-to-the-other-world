@@ -30,9 +30,9 @@
     do                                          \
     {                                           \
         memset(&addr, 0, sizeof(addr));         \
-        serv_addr.sin_family = domain;          \
-        serv_addr.sin_addr.s_addr = htonl(ip);  \
-        serv_addr.sin_port = htons(atoi(port)); \
+        addr.sin_family = domain;          \
+        addr.sin_addr.s_addr = htonl(ip);  \
+        addr.sin_port = htons(atoi(port)); \
     } while (0);
 
 #define BUF_SIZE (128)
@@ -70,7 +70,6 @@ int main(int argc, char *argv[])
     forn(i, CLIENT_ITER_NUM)
     {
         int read_bytes;
-        int total_read_bytes;
         int clnt_sock;
 
         my_accept(clnt_sock, serv_sock, (struct sockaddr *)&clnt_addr, &clnt_addr_len);
