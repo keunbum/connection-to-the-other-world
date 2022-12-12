@@ -94,20 +94,30 @@ void error_handling(const char *message)
 
 int get_user_input(char *input_buf, int *input_len)
 {
+    /*
     fputs("시작(1) 종료(0): ", stdout);
     fgets(input_buf, BUF_SIZE, stdin);
     if (input_buf[0] == '0')
     {
         return 0;
     }
+    */
 
-    fputs("숫자들을 입력하세요: ", stdout);
+    fputs("숫자들을 입력하세요(q to quit): ", stdout);
     fgets(input_buf, BUF_SIZE, stdin);
+    if (strchr("qQ", input_buf[0]))
+    {
+        return 0;
+    }
     *input_len = strlen(input_buf);
     input_buf[*input_len - 1] = ' ';
 
-    fputs("연산자를 입력하세요: ", stdout);
+    fputs("연산자를 입력하세요(q to quit): ", stdout);
     fgets(input_buf + *input_len, BUF_SIZE, stdin);
+    if (strchr("qQ", input_buf[0]))
+    {
+        return 0;
+    }
     *input_len += 1;
     input_buf[*input_len] = '\0';
     // eprintf("input_buf: %s, len: %d\n", input_buf, *input_len);
