@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
         printf("Message from server: %s", msg_buf);
     }
 
-    my_close(sock);
+    my_close(res, sock);
     return 0;
 }
 
