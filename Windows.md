@@ -16,9 +16,9 @@
 
 Use the following template code for network socket programming on Windows.
 
-[ex_server_win.c](../../../template/ex_server_win.c)
+[ex_server_win.c](./template/ex_server_win.c)
 
-[ex_client_win.c](../../../template/ex_client_win.c)
+[ex_client_win.c](./template/ex_client_win.c)
 
 
 ## CMD
