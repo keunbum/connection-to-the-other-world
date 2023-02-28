@@ -62,7 +62,7 @@
 
 // addr's type: SOCKADDR_IN
 // domain's type: int
-// ip's type: uint32_t
+// ip's type: u_long
 // port's type: char *
 #define SetAddrIntIP(addr, domain, ip, port)    \
     do                                          \
