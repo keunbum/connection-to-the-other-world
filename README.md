@@ -29,6 +29,11 @@ A base for network programming.
     * [04-4 윈도우 기반으로 구현하기](./chapters/chapter04/04/)
   * [chapter05 TCP 기반 서버/클라이언트 2](./chapters/chapter05)
     * [05-1 에코 클라이언트의 완벽 구현!](./chapters/chapter05/01/)
+    * [05-2 TCP의 이론적인 이야기!](./chapters/chapter05/02/)
+    * 05-3 윈도우 기반으로 구현하기
+  * [chapter06 UDP 기반 서버/클라이언트](./chapters/chapter06)
+    * [06-1 UDP에 대한 이해](./chapters/chapter06/01/)
+    * [06-2 UDP 기반 서버/클라이언트의 구현](./chapters/chapter06/02/)
 
 ## Reference
 
