@@ -3,6 +3,7 @@
 ## Index
 
 * [VS Code](#vs-code)
+    * [시작](#시작)
     * [단축키](#단축키)
 * [GCC](#gcc)
     * [errno 출력](#errno-출력)
@@ -13,6 +14,10 @@
     * [git push](#git-push)
 
 ## VS Code
+
+### 시작
+
+WSL에서 프로그래밍하므로 WSL 켠 후에 폴더 진입 후 code 명령어로 vs code 열 것.
 
 ### 단축키
 
@@ -87,11 +92,16 @@ In **~/.bashrc** just put like this.
 # some my functions
 c() {
     # compile $1.c to $1
-    gcc "$1".c -o "$1"
+    gcc "$1".c -o "$1" -Wall
 
     # If useful..
     # ./"$1"
     # rm "$1"
+}
+
+d() {
+    # compile $1.c to $1 with LOCAL
+	gcc "$1".c -o "$1" -Wall -DLOCAL
 }
 ```
 
