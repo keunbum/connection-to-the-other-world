@@ -1,64 +1,66 @@
-#include <arpa/inet.h>
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/socket.h>
-#include <unistd.h>
+#include <WinSock2.h>
 
-#define forn(i, n) for (int i = 0; i < (int)(n); ++i)
+#pragma comment(lib, "ws2_32.lib")
+
+#define FORN(i, n) for (int i = 0; i < (int)(n); ++i)
 
 #ifdef LOCAL
-#define eprintf(...) fprintf(stderr, __VA_ARGS__)
-#define my_debug_str(pref, str)                \
-    do                                         \
-    {                                          \
-        eprintf(#pref #str ": \"%s\"\n", str); \
+#define EPrintf(...) fprintf(stderr, __VA_ARGS__)
+#define MyDebugStr(pref, str)                       \
+    do                                              \
+    {                                               \
+        EPrintf(#pref ": " #str ": \"%s\"\n", str); \
     } while (0)
-#define my_debug_arr(pref, arr, n, ch)   \
-    do                                   \
-    {                                    \
-        eprintf(#pref #arr "[" #n "]:"); \
-        forn(i, n)                       \
-        {                                \
-            eprintf(" " #ch, arr[i]);    \
-        }                                \
-        eprintf("\n");                   \
+#define MyDebugArr(pref, arr, n, ch)          \
+    do                                        \
+    {                                         \
+        EPrintf(#pref ": " #arr "[" #n "]:"); \
+        FORN(i, n)                            \
+        {                                     \
+            EPrintf(" " #ch, arr[i]);         \
+        }                                     \
+        EPrintf("\n");                        \
     } while (0)
 #else
-#define eprintf(...) (void)0
-#define my_debug_str(...) (void)0
-#define my_debug_arr(...) (void)0
+#define EPrintf(...) (void)0
+#define MyDebugStr(...) (void)0
+#define MyDebugArr(...) (void)0
 #endif
 
-#define my_func(func, res, ...)                               \
+#define MyFunc(func, res, fail_value, ...)                    \
     do                                                        \
     {                                                         \
-        eprintf(#func "(" #__VA_ARGS__ ");\n");               \
-        if ((res = func(__VA_ARGS__)) == -1)                  \
+        EPrintf(#func "(" #__VA_ARGS__ ")\n");                \
+        if ((res = func(__VA_ARGS__)) == fail_value)          \
         {                                                     \
-            error_handling(#func "(" #__VA_ARGS__ ") error"); \
+            ErrorHandling(#func "(" #__VA_ARGS__ ") error");  \
         }                                                     \
     } while (0)
-#define no_result_used_my_func(func, ...) \
-    do                                    \
-    {                                     \
-        int res;                          \
-        my_func(func, res, __VA_ARGS__);  \
+#define NoResultUsedMyFunc(func, fail_value, ...)   \
+    do                                              \
+    {                                               \
+        int res;                                    \
+        MyFunc(func, res, fail_value, __VA_ARGS__); \
     } while (0)
-#define my_socket(sock, ...) my_func(socket, sock, __VA_ARGS__)
-#define my_bind(...) no_result_used_my_func(bind, __VA_ARGS__)
-#define my_close(...) no_result_used_my_func(close, __VA_ARGS__)
-#define my_connect(...) no_result_used_my_func(connect, __VA_ARGS__)
-#define my_write(...) no_result_used_my_func(write, __VA_ARGS__)
-#define my_read(read_bytes, ...) my_func(read, read_bytes, __VA_ARGS__)
 
-// addr's type: struct sockaddr_in
+#define MySocket(sock, ...) MyFunc(socket, sock, INVALID_SOCKET, __VA_ARGS__)
+#define MyCloseSocket(...) NoResultUsedMyFunc(closesocket, SOCKET_ERROR, __VA_ARGS__)
+#define MyConnect(...) NoResultUsedMyFunc(connect, SOCKET_ERROR, __VA_ARGS__)
+#define MySend(...) NoResultUsedMyFunc(send, SOCKET_ERROR, __VA_ARGS__)
+#define MyRecv(read_bytes, ...) MyFunc(recv, read_bytes, SOCKET_ERROR, __VA_ARGS__)
+
+// addr's type: SOCKADDR_IN
 // domain's type: int
 // ip's type: const char *
 // port's type: char *
-#define set_addr_str_ip(addr, domain, ip, port) \
+#define SetAddrStrIP(addr, domain, ip, port)    \
     do                                          \
     {                                           \
         memset(&(addr), 0, sizeof(addr));       \
@@ -67,65 +69,79 @@
         addr.sin_port = htons(atoi(port));      \
     } while (0)
 
-static void error_handling(const char *);
-static bool is_quit_cmd(const char *);
+#define BUF_SIZE (128)
 
-int main(int argc, char *argv[])
+static void ErrorHandling(const char*);
+static bool IsQuitCmd(const char*);
+
+void Main(char* argv[])
 {
-#define BUF_SIZE (1024)
-    int my_sock;
-    static char msg_buf[BUF_SIZE];
-    struct sockaddr_in serv_addr;
+	SOCKET servSock;
+	SOCKADDR_IN servAddr;
 
-    // verify argc
-    if (argc != 3)
-    {
-        printf("usage: %s <IP> <PORT>\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+	// ready
+	MySocket(servSock, PF_INET, SOCK_DGRAM, 0); // SOCK_DGRAM!!
+	SetAddrStrIP(servAddr, AF_INET, argv[1], argv[2]);
+	MyConnect(servSock, (SOCKADDR*)&servAddr, sizeof(servAddr));
 
-    // ready
-    my_socket(my_sock, PF_INET, SOCK_DGRAM, 0);
-    set_addr_str_ip(serv_addr, AF_INET, argv[1], argv[2]);
-    my_connect(my_sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+	// do it
+	while (true)
+	{
+		static char msgBuf[BUF_SIZE];
+		fputs("Enter message to send(q to quit): ", stdout);
+		fgets(msgBuf, sizeof(msgBuf) - 1, stdin);
+		if (IsQuitCmd(msgBuf))
+		{
+			break;
+		}
+		MySend(servSock, msgBuf, strlen(msgBuf), 0);
+		int msgLen;
+		MyRecv(msgLen, servSock, msgBuf, sizeof(msgBuf) - 1, 0);
+		msgBuf[msgLen] = '\0';
+		printf("message from server: %s", msgBuf);
+	}
 
-    // do it
-    while (true)
-    {
-        fputs("Enter message to send(q to quit): ", stdout);
-        fgets(msg_buf, sizeof(msg_buf), stdin);
-        if (is_quit_cmd(msg_buf))
-        {
-            break;
-        }
-        my_write(my_sock, msg_buf, strlen(msg_buf));
-        ssize_t msg_len;
-        my_read(msg_len, my_sock, msg_buf, sizeof(msg_buf) - 1);
-        msg_buf[msg_len] = '\0';
-        printf("msg from server: %s", msg_buf);
-    }
-
-    // clean up
-    my_close(my_sock);
-
-    return EXIT_SUCCESS;
+	// clean up
+	MyCloseSocket(servSock);
 }
 
-static void error_handling(const char *message)
+int main(int argc, char* argv[])
 {
-    perror(message);
-    exit(EXIT_FAILURE);
+	// verify argc
+	if (argc != 3)
+	{
+		printf("usage: %s <IP> <PORT>\n", argv[0]);
+		exit(1);
+	}
+
+	WSADATA wsaData;
+	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
+	{
+		ErrorHandling("WSAStartup() Error");
+	}
+
+	Main(argv);
+
+	WSACleanup();
+
+	return 0;
 }
 
-static bool is_quit_cmd(const char *cmd)
+static void ErrorHandling(const char* message)
 {
-    static char *TERMINATE_CMD[] = {"q\n", "Q\n"};
-    bool is_quit = false;
-    forn(i, sizeof(TERMINATE_CMD) / sizeof(TERMINATE_CMD[0]))
-    {
-        is_quit |= (strcmp(cmd, TERMINATE_CMD[i]) == 0);
-    }
-    return is_quit;
+	perror(message);
+	exit(1);
+}
+
+bool IsQuitCmd(const char* msg)
+{
+	static const char* QUIT_MSG[] = { "q\n", "Q\n", };
+	bool isQuit = false;
+	FORN(i, sizeof(QUIT_MSG) / sizeof(QUIT_MSG[0]))
+	{
+		isQuit |= (strcmp(msg, QUIT_MSG[i]) == 0);
+	}
+	return isQuit;
 }
 
 /* read it as if you were wrong once. --> "why is this wrong??"
