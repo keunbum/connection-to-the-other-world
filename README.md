@@ -34,6 +34,8 @@ A base for network programming.
   * [chapter06 UDP 기반 서버/클라이언트](./chapters/chapter06)
     * [06-1 UDP에 대한 이해](./chapters/chapter06/01/)
     * [06-2 UDP 기반 서버/클라이언트의 구현](./chapters/chapter06/02/)
+    * [06-3 UDP의 데이터 송수신 특성과 UDP에서의 connect 함수 호출](./chapters/chapter06/03/)
+    * [06-4 윈도우 기반으로 구현하기](./chapters/chapter06/04/)
 
 ## Reference
 
