@@ -50,7 +50,7 @@
 #define my_bind(...) no_result_used_my_func(bind, __VA_ARGS__)
 #define my_close(...) no_result_used_my_func(close, __VA_ARGS__)
 #define my_recvfrom(recv_bytes, ...) my_func(recvfrom, recv_bytes, __VA_ARGS__)
-#define my_sendto(sent_bytes, ...) no_result_used_my_func(sendto, sent_bytes, __VA_ARGS__)
+#define my_sendto(...) no_result_used_my_func(sendto, __VA_ARGS__)
 
 // addr's type: struct sockaddr_in
 // domain's type: int
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
         {
             break;
         }
-        my_sendto(serv_sock, msg_buf, recv_msg_len, 0, (struct sockaddr *)&clnt_addr, clnt_addr_size);
+        my_sendto(serv_sock, msg_buf, 0, (struct sockaddr *)&clnt_addr, clnt_addr_size);
     }
 
     // clean up
