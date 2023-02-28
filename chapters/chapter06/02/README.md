@@ -32,6 +32,18 @@ UDP 소켓은 데이터를 전송할 때마다 목적지 주소정보를 별도�
 * [recvfrom wariua](https://wariua.github.io/man-pages-ko/recvfrom%282%29/)
 * [recvfrom man page](https://man7.org/linux/man-pages/man3/recvfrom.3p.html)
 
+---
 
+## UDP 기반의 에코 서버와 에코 클라이언트
+
+UDP에서는 TCP와 달리 연결 요청과 그에 따른 수락의 과정이 존재하지 않기 때문에  
+서버 밑 클라이언트라는 표현이 적절치 않은 부분도 있다.  
+다만 서비스를 제공한다는 측면에서 서버라 하는 것일 뿐.
 
 ---
+
+## UDP 클라이언트 소켓의 주소 정보 할당
+
+TCP는 connect 때 자동 호출..
+
+UDP도 bind를 호출할 수 있으나, sendto 때 자동으로 할당되기에 대개 생략하는 편.
