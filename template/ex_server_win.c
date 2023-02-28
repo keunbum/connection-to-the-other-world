@@ -12,13 +12,13 @@
 #define Eprintf(...) fprintf(stderr, __VA_ARGS__)
 
 #define MyFunc(func, res, ...)                               \
-    do                                                       \
-    {                                                        \
-        if ((res = func(__VA_ARGS__)) == -1)                 \
-        {                                                    \
-            ErrorHandling(#func "(" #__VA_ARGS__ ") error"); \
-        }                                                    \
-    } while (0)
+	do                                                       \
+	{                                                        \
+		if ((res = func(__VA_ARGS__)) == -1)                 \
+		{                                                    \
+			ErrorHandling(#func "(" #__VA_ARGS__ ") error"); \
+		}                                                    \
+	} while (0)
 
 #define MySocket(res, ...) MyFunc(socket, res, __VA_ARGS__)
 #define MyBind(res, ...) MyFunc(bind, res, __VA_ARGS__)
@@ -29,21 +29,21 @@
 #define MyClosesocket(res, ...) MyFunc(closesocket, res, __VA_ARGS__)
 
 #define SetAddr(addr, domain, ip, port)    \
-    do                                     \
-    {                                      \
-        memset(&addr, 0, sizeof(addr));	   \
-        addr.sin_family = domain;          \
-        addr.sin_addr.s_addr = htonl(ip);  \
-        addr.sin_port = htons(atoi(port)); \
-    } while (0);
+	do                                     \
+	{                                      \
+		memset(&addr, 0, sizeof(addr));    \
+		addr.sin_family = domain;          \
+		addr.sin_addr.s_addr = htonl(ip);  \
+		addr.sin_port = htons(atoi(port)); \
+	} while (0)
 
 #define BUF_SIZE (128)
 #define REQUEST_QUEUE_SIZE 5
 #define CLIENT_ITER_NUM 5
 
-void ErrorHandling(const char*);
+void ErrorHandling(const char *);
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	WSADATA wsaData;
 	int res;
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 	MySocket(servSock, PF_INET, SOCK_STREAM, 0);
 
 	SetAddr(servAddr, AF_INET, INADDR_ANY, argv[1]);
-	MyBind(res, servSock, (struct sockaddr*)&servAddr, sizeof(servAddr));
+	MyBind(res, servSock, (struct sockaddr *)&servAddr, sizeof(servAddr));
 
 	MyListen(res, servSock, REQUEST_QUEUE_SIZE);
 
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 		int readBytes;
 		int clntSock;
 
-		MyAccept(clntSock, servSock, (struct sockaddr*)&clntAddr, &clntAddrLen);
+		MyAccept(clntSock, servSock, (struct sockaddr *)&clntAddr, &clntAddrLen);
 
 		Eprintf("%dth client...\n", i + 1);
 
@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-void ErrorHandling(const char* message)
+void ErrorHandling(const char *message)
 {
 	perror(message);
 	exit(1);
