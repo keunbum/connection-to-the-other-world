@@ -91,8 +91,20 @@
 
 static void error_handling(const char *);
 static void process_exit_child(int);
+static int main2(char *[]);
 
-int main2(char *argv[])
+int main(int argc, char *argv[])
+{
+    // verify argc
+    if (argc != 2)
+    {
+        printf("usage: %s <PORT>\n", argv[0]);
+        exit(1);
+    }
+    return main2(argv);
+}
+
+static int main2(char *argv[])
 {
     struct sigaction act = {};
     act.sa_handler = process_exit_child;
@@ -130,26 +142,14 @@ int main2(char *argv[])
                 write(clnt_sock, buf, str_len);
             }
             close(clnt_sock);
-            puts("client disconnected...");    
+            puts("client disconnected...");
             return 0;
         }
         close(clnt_sock);
-        continue;
     }
     my_close(serv_sock);
 
     return 0;
-}
-
-int main(int argc, char *argv[])
-{
-    // verify argc
-    if (argc != 2)
-    {
-        printf("usage: %s <PORT>\n", argv[0]);
-        exit(1);
-    }
-    return main2(argv);
 }
 
 static void error_handling(const char *message)
