@@ -58,7 +58,6 @@
 #define my_write(...) no_result_used_my_func(write, __VA_ARGS__)
 #define my_read(read_bytes, ...) my_func(read, read_bytes, __VA_ARGS__)
 
-
 // addr's type: struct sockaddr_in
 // domain's type: int
 // ip's type: uint32_t
@@ -87,35 +86,79 @@
 
 #define BUF_SIZE (128)
 
-static void error_handling(const char*);
+static void error_handling(const char *);
+static void write_routine(int, char *);
+static void read_routine(int, char *);
+static int main2(char *[]);
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 
-	int @@here@@;
-	struct sockaddr_in @@here@@;
+    // verify argc
+    if (argc != 3)
+    {
+        printf("usage: %s <IP> <PORT>\n", argv[0]);
+        return 1;
+    }
 
-	// verify argc
-	if (argc != 2)
-	{
-		printf("usage: %s <PORT>\n", argv[0]);
-		exit(1);
-	}
-
-	// ready
-
-	// do it
-
-	// clean up
-	my_close(@@here@@);
-
-	return 0;
+    return main2(argv);
 }
 
-static void error_handling(const char* message)
+static int main2(char *argv[])
 {
-	perror(message);
-	exit(1);
+    int sock;
+    struct sockaddr_in serv_addr;
+    my_socket(sock, PF_INET, SOCK_STREAM, 0);
+    set_addr_str_ip(serv_addr, AF_INET, argv[1], argv[2]);
+    my_connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+
+    pid_t pid = fork();
+    static char buf[BUF_SIZE];
+    if (pid == 0)
+    {
+        write_routine(sock, buf);
+    }
+    else
+    {
+        read_routine(sock, buf);
+    }
+
+    close(sock);
+    return 0;
+}
+
+static void error_handling(const char *message)
+{
+    perror(message);
+    exit(1);
+}
+
+static void write_routine(int sock, char *buf)
+{
+    while (true)
+    {
+        fgets(buf, BUF_SIZE, stdin);
+        if (strcmp(buf, "q\n") == 0 || strcmp(buf, "Q\n") == 0)
+        {
+            shutdown(sock, SHUT_WR);
+            return;
+        }
+        write(sock, buf, strlen(buf));
+    }
+}
+
+static void read_routine(int sock, char *buf)
+{
+    int read_bytes;
+    while ((read_bytes = read(sock, buf, BUF_SIZE)) != 0)
+    {
+        buf[read_bytes] = '\0';
+        printf("Message from server: %s", buf);
+    }
+    if (read_bytes == -1)
+    {
+        error_handling("read() error");
+    }
 }
 
 /* read it as if you were wrong once. --> "why is this wrong??"

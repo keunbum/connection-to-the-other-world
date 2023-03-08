@@ -52,12 +52,13 @@
 #define my_socket(sock, ...) my_func(socket, sock, __VA_ARGS__)
 #define my_close(...) no_result_used_my_func(close, __VA_ARGS__)
 #define my_bind(...) no_result_used_my_func(bind, __VA_ARGS__)
+#define my_listen(...) no_result_used_my_func(listen, __VA_ARGS__)
+#define my_accept(fd, ...) my_func(accept, fd, __VA_ARGS__)
 #define my_connect(...) no_result_used_my_func(connect, __VA_ARGS__)
 #define my_recvfrom(recv_bytes, ...) my_func(recvfrom, recv_bytes, __VA_ARGS__)
 #define my_sendto(...) no_result_used_my_func(sendto, __VA_ARGS__)
 #define my_write(...) no_result_used_my_func(write, __VA_ARGS__)
 #define my_read(read_bytes, ...) my_func(read, read_bytes, __VA_ARGS__)
-
 
 // addr's type: struct sockaddr_in
 // domain's type: int
@@ -86,36 +87,84 @@
     } while (0)
 
 #define BUF_SIZE (128)
+#define MAX_QUEUE_SIZE (5)
 
-static void error_handling(const char*);
+static void error_handling(const char *);
+static void process_exit_child(int);
 
-int main(int argc, char* argv[])
+int main2(char *argv[])
 {
+    struct sigaction act = {};
+    act.sa_handler = process_exit_child;
+    act.sa_flags = 0;
+    sigaction(SIGCHLD, &act, 0);
 
-	int @@here@@;
-	struct sockaddr_in @@here@@;
+    int serv_sock;
+    struct sockaddr_in serv_addr;
+    my_socket(serv_sock, PF_INET, SOCK_STREAM, 0);
+    set_addr_int_ip(serv_addr, AF_INET, INADDR_ANY, argv[1]);
+    my_bind(serv_sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+    my_listen(serv_sock, MAX_QUEUE_SIZE);
+    while (true)
+    {
+        struct sockaddr_in clnt_addr;
+        socklen_t addr_size = (socklen_t)sizeof(clnt_addr);
+        int clnt_sock = accept(serv_sock, (struct sockaddr *)&clnt_addr, &addr_size);
+        if (clnt_sock == -1)
+        {
+            continue;
+        }
+        puts("new client connected...");
+        pid_t pid = fork();
+        if (pid == 0)
+        {
+            close(serv_sock);
+            static char buf[BUF_SIZE];
+            int str_len;
+            while ((str_len = read(clnt_sock, buf, sizeof(buf))) != 0)
+            {
+                if (str_len == -1)
+                {
+                    break;
+                }
+                write(clnt_sock, buf, str_len);
+            }
+            close(clnt_sock);
+            puts("client disconnected...");    
+            return 0;
+        }
+        close(clnt_sock);
+        continue;
+    }
+    my_close(serv_sock);
 
-	// verify argc
-	if (argc != 2)
-	{
-		printf("usage: %s <PORT>\n", argv[0]);
-		exit(1);
-	}
-
-	// ready
-
-	// do it
-
-	// clean up
-	my_close(@@here@@);
-
-	return 0;
+    return 0;
 }
 
-static void error_handling(const char* message)
+int main(int argc, char *argv[])
 {
-	perror(message);
-	exit(1);
+    // verify argc
+    if (argc != 2)
+    {
+        printf("usage: %s <PORT>\n", argv[0]);
+        exit(1);
+    }
+    return main2(argv);
+}
+
+static void error_handling(const char *message)
+{
+    perror(message);
+    exit(1);
+}
+
+static void process_exit_child(int sig)
+{
+    assert(sig == SIGCHLD);
+    int status;
+    pid_t pid = waitpid(-1, &status, WNOHANG);
+    assert(pid != -1);
+    printf("removed proc id: %d\n", pid);
 }
 
 /* read it as if you were wrong once. --> "why is this wrong??"
