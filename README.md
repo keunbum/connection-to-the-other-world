@@ -39,7 +39,7 @@ A base for network programming.
   * [chapter10 멀티 프로세스 기반 서버 구현](./chapters/chapter10/)
     * [10-1 프로세스의 이해와 활용](./chapters/chapter10/01/)
     * [10-2 프로세스 & 좀비(zombie) 프로세스](./chapters/chapter10/02/)
-    * [10-3 시그널 핸등링](./chapters/chapter10/03/)
+    * [10-3 시그널 핸들링](./chapters/chapter10/03/)
     * [10-4 멀티태스킹 기반의 다중 접속 서버](./chapters/chapter10/04/)
     * [10-5 TCP의 입출력 루틴(Routine) 분할](./chapters/chapter10/05/)
   * [chapter11 프로세스 간 통신(Inter Process Communication)](./chapters/chapter11/)
